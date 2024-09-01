@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="calculator">
+      <h1>Age <span>Calculator</span></h1>
+      <div class="inputBox">
+        <input type="date" id="date">
+        <button onclick="calculateAge()">Calculator</button>
+      </div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+
+
+  <!-- JavaScript -->
+  <script>
+    let userInput = document.getElementById('date');
+    userInput.max = new Date().toISOString().split("T")[0];
+    let result = document.getElementById("result");
+
+    function calculateAge() {
+      let birthDate = new Date(userInput.value);
+
+      /* DOB(Date of birth)
+       MOB(Month of birth)
+       YOB(Year of birth)*/
+
+      let DOB = birthDate.getDate();
+      let MOB = birthDate.getMonth();
+      let YOB = birthDate.getFullYear();
+
+      let today = new Date();
+
+      let currentDate = today.getDate();
+      let currentMonth = today.getMonth();
+      let currentYear = today.getFullYear();
+
+      /* DID(Difference in days)
+       DIM(Difference in months)
+       DIY(Difference in years)*/
+      let DID, DIM, DIY;
+      DIY = currentYear - YOB;
+
+      if (currentMonth >= MOB) {
+        DIM = currentMonth - MOB;
+      } else {
+        DIY--;
+        DIM = 12 + currentMonth - MOB;
+      }
+
+      if (currentDate >= DOB) {
+        DID = currentDate - DOB;
+      } else {
+        DIM--;
+        DID = getDaysInMonth(YOB, MOB) + currentDate - DOB;
+      }
+      if (DIM < 0) {
+        DIM = 11;
+        DIY--;
+      }
+      result.innerHTML = `You are <span>${DIY}</span> years, <span>${DIM}</span> months and <span>${DID}</span> days old`
+    }
+    function getDaysInMonth(year, month) {
+      return new Date(year, month, 0).getDate();
+    }
+  </script>
+</body>
+
+</html>
